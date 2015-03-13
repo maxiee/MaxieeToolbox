@@ -1,5 +1,4 @@
 __author__ = 'Maxiee'
-
 from PyQt4 import QtCore, QtGui
 
 class MainWindow(QtGui.QWidget):
