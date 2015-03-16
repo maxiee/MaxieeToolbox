@@ -24,6 +24,7 @@ class MainWindow(QtGui.QWidget):
         mainLayout.addWidget(self.mainPageComboBox)
         mainLayout.addWidget(self.mainStack)
 
+        self.setGeometry(100,100,300,600)
         self.setLayout(mainLayout)
         self.setWindowTitle("Maxiee工具箱")
 
