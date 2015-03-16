@@ -5,10 +5,23 @@ class MainWindow(QtGui.QWidget):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.HelloLabel = QtGui.QLabel("Hello!")
+        self.helloLabel = QtGui.QLabel("Hello!")
+
+        self.mainStack = QtGui.QStackedWidget()
+        self.mainStack.addWidget(self.helloLabel)
+
+        self.mainPageComboBox = QtGui.QComboBox()
+        self.mainPageComboBox.addItem("主页")
+
+        QtCore.QObject.connect(
+            self.mainPageComboBox,
+            QtCore.SIGNAL('activated(int)'),
+            self.mainStack,
+            QtCore.SLOT('setCurrentIndex(int)'))
 
         mainLayout = QtGui.QVBoxLayout()
-        mainLayout.addWidget(self.HelloLabel)
+        mainLayout.addWidget(self.mainPageComboBox)
+        mainLayout.addWidget(self.mainStack)
 
         self.setLayout(mainLayout)
         self.setWindowTitle("Maxiee工具箱")
