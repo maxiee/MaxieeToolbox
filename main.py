@@ -1,14 +1,15 @@
 __author__ = 'Maxiee'
 from PyQt4 import QtCore, QtGui
+import widgets.homepage.homepage
 
 class MainWindow(QtGui.QWidget):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.helloLabel = QtGui.QLabel("Hello!")
+        self.homepage = widgets.homepage.homepage.HomePage()
 
         self.mainStack = QtGui.QStackedWidget()
-        self.mainStack.addWidget(self.helloLabel)
+        self.mainStack.addWidget(self.homepage)
 
         self.mainPageComboBox = QtGui.QComboBox()
         self.mainPageComboBox.addItem("主页")
