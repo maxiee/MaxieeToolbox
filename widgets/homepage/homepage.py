@@ -30,10 +30,10 @@ class HomePage(QtGui.QWidget):
         (ok, date, minTemp, maxTemp, weather) = weatherapi.getWeather7Days()
         for i in range(5):
             weatherVBox = QtGui.QVBoxLayout()
-            weatherVBox.addWidget(QtGui.QLabel(date[i]))
-            weatherVBox.addWidget(QtGui.QLabel(str(minTemp[i])+"℃"))
-            weatherVBox.addWidget(QtGui.QLabel(str(maxTemp[i])+"℃"))
-            weatherVBox.addWidget(QtGui.QLabel(weather[i]))
+            weatherVBox.addWidget(QtGui.QLabel(date[i] if ok else ""))
+            weatherVBox.addWidget(QtGui.QLabel(str(minTemp[i])+"℃" if ok else ""[i]))
+            weatherVBox.addWidget(QtGui.QLabel(str(maxTemp[i])+"℃" if ok else "暂时无网络"[i]))
+            weatherVBox.addWidget(QtGui.QLabel(weather[i]) if ok else "检查后刷新"[i])
             weatherGrid.addLayout(weatherVBox, 0, i)
 
         # Daily function

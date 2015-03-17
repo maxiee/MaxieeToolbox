@@ -6,16 +6,18 @@ import json
 import datetime
 
 def getWeather7Days():
-    url = "http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&mode=json&units=metric&cnt=7"
-
-    response = requests.get(url.format('Wuxi'))
-    jsonParsed = json.loads(response.text)
-    jsonParsed = jsonParsed['list']
-
     date = []
     minTemp = []
     maxTemp = []
     weather = []
+    url = "http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&mode=json&units=metric&cnt=7"
+    try:
+        response = requests.get(url.format('Wuxi'))
+    except requests.RequestException:
+        return False, date, minTemp, maxTemp, weather
+
+    jsonParsed = json.loads(response.text)
+    jsonParsed = jsonParsed['list']
 
     for i in range(7):
         dayData = jsonParsed[i]
@@ -26,7 +28,7 @@ def getWeather7Days():
         weather.append(
             translateWeatherDescription(
                 dayData['weather'][0]['description']))
-    return date, minTemp, maxTemp, weather
+    return True, date, minTemp, maxTemp, weather
 
 def translateWeatherDescription(description):
     dict = {
