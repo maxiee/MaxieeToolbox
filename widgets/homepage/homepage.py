@@ -1,6 +1,6 @@
 __author__ = 'Maxiee'
 from PyQt4 import QtCore, QtGui
-from widgets.homepage import weatherapi
+
 
 class HomePage(QtGui.QWidget):
     def __init__(self, parent=None):
@@ -24,9 +24,10 @@ class HomePage(QtGui.QWidget):
         timer.start(1000)
 
         # Weather
+        from widgets.homepage import weatherapi
         weatherGrid = QtGui.QGridLayout()
         weatherGrid.setMargin(1)
-        (date, minTemp, maxTemp, weather) = weatherapi.getWeather7Days()
+        (ok, date, minTemp, maxTemp, weather) = weatherapi.getWeather7Days()
         for i in range(5):
             weatherVBox = QtGui.QVBoxLayout()
             weatherVBox.addWidget(QtGui.QLabel(date[i]))
@@ -35,11 +36,21 @@ class HomePage(QtGui.QWidget):
             weatherVBox.addWidget(QtGui.QLabel(weather[i]))
             weatherGrid.addLayout(weatherVBox, 0, i)
 
+        # Daily function
+        dailyGrid = QtGui.QGridLayout()
+        # ConnectNetwork
+        networkButton = QtGui.QPushButton()
+        networkButton.setText("校园网")
+        from widgets.homepage import networkutils
+        networkButton.clicked.connect(networkutils.connectNetwork)
+        dailyGrid.addWidget(networkButton, 0, 0)
+
         mainLayout = QtGui.QVBoxLayout()
         mainLayout.addWidget(self.clock)
         mainLayout.addWidget(self.date)
         mainLayout.addLayout(weatherGrid)
         mainLayout.addStretch(1)
+        mainLayout.addLayout(dailyGrid)
 
         self.setLayout(mainLayout)
         self.setWindowTitle("主页")
