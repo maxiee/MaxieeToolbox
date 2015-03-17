@@ -2,6 +2,7 @@ __author__ = 'Maxiee'
 from PyQt4 import QtCore, QtGui
 import widgets.homepage.homepage
 
+
 class MainWindow(QtGui.QWidget):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)

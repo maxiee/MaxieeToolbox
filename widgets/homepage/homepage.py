@@ -1,6 +1,6 @@
 __author__ = 'Maxiee'
 from PyQt4 import QtCore, QtGui
-
+from widgets.homepage import weatherapi
 
 class HomePage(QtGui.QWidget):
     def __init__(self, parent=None):
@@ -23,9 +23,22 @@ class HomePage(QtGui.QWidget):
         timer.timeout.connect(self.showTime)
         timer.start(1000)
 
+        # Weather
+        weatherGrid = QtGui.QGridLayout()
+        weatherGrid.setMargin(1)
+        (date, minTemp, maxTemp, weather) = weatherapi.getWeather7Days()
+        for i in range(5):
+            weatherVBox = QtGui.QVBoxLayout()
+            weatherVBox.addWidget(QtGui.QLabel(date[i]))
+            weatherVBox.addWidget(QtGui.QLabel(str(minTemp[i])+"℃"))
+            weatherVBox.addWidget(QtGui.QLabel(str(maxTemp[i])+"℃"))
+            weatherVBox.addWidget(QtGui.QLabel(weather[i]))
+            weatherGrid.addLayout(weatherVBox, 0, i)
+
         mainLayout = QtGui.QVBoxLayout()
         mainLayout.addWidget(self.clock)
         mainLayout.addWidget(self.date)
+        mainLayout.addLayout(weatherGrid)
         mainLayout.addStretch(1)
 
         self.setLayout(mainLayout)
