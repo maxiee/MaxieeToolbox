@@ -35,6 +35,8 @@ def translateWeatherDescription(description):
         "heavy intensity rain": "大暴雨",
         "moderate rain": "中雨",
         "light rain": "小雨",
-        "sky is clear": "晴"
+        "sky is clear": "晴",
+        "scattered clouds": "多云",
+        "few clouds": "少云"
     }
     return dict[description]
