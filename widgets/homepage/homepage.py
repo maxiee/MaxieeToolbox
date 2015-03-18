@@ -38,6 +38,7 @@ class HomePage(QtGui.QWidget):
             weatherGrid.addLayout(weatherVBox, 0, i)
 
         # My apps
+        import subprocess
         appsGrid = QtGui.QGridLayout()
         verCount = 0
         from widgets.homepage import apputils
@@ -54,7 +55,7 @@ class HomePage(QtGui.QWidget):
                 appButton = QtGui.QPushButton()
                 appButton.setText(apps[i]['name'])
                 appButton.clicked.connect(
-                    lambda clicked, path=apps[i]['path']: os.system('"'+path+'"'))
+                    lambda clicked, path=apps[i]['path']: subprocess.Popen('"'+path+'"'))
                 appsGrid.addWidget(appButton, verCount, horCount)
                 horCount += 1
                 if horCount is 4:
