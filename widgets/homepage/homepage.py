@@ -1,5 +1,6 @@
 __author__ = 'Maxiee'
 from PyQt4 import QtCore, QtGui
+import os
 
 
 class HomePage(QtGui.QWidget):
@@ -36,6 +37,31 @@ class HomePage(QtGui.QWidget):
             weatherVBox.addWidget(QtGui.QLabel(weather[i]) if ok else "检查后刷新"[i])
             weatherGrid.addLayout(weatherVBox, 0, i)
 
+        # My apps
+        appsGrid = QtGui.QGridLayout()
+        verCount = 0
+        from widgets.homepage import apputils
+        myApps = apputils.MyApps()
+        while True:
+            (category, apps) = myApps.fetchOneCategory()
+            if category is None:
+                break
+            categoryLabel = QtGui.QLabel(category)
+            appsGrid.addWidget(categoryLabel, verCount, 0)
+            verCount += 1
+            horCount = 0
+            for i in range(len(apps)):
+                appButton = QtGui.QPushButton()
+                appButton.setText(apps[i]['name'])
+                appButton.clicked.connect(
+                    lambda clicked, path=apps[i]['path']: os.system('"'+path+'"'))
+                appsGrid.addWidget(appButton, verCount, horCount)
+                horCount += 1
+                if horCount is 4:
+                    horCount = 0
+                    verCount += 1
+            verCount += 1
+
         # Daily function
         dailyGrid = QtGui.QGridLayout()
         # ConnectNetwork
@@ -49,6 +75,7 @@ class HomePage(QtGui.QWidget):
         mainLayout.addWidget(self.clock)
         mainLayout.addWidget(self.date)
         mainLayout.addLayout(weatherGrid)
+        mainLayout.addLayout(appsGrid)
         mainLayout.addStretch(1)
         mainLayout.addLayout(dailyGrid)
 
