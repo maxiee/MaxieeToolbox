@@ -16,8 +16,11 @@ def getWeather7Days():
     except requests.RequestException:
         return False, date, minTemp, maxTemp, weather
 
-    jsonParsed = json.loads(response.text)
-    jsonParsed = jsonParsed['list']
+    try:
+        jsonParsed = json.loads(response.text)
+        jsonParsed = jsonParsed['list']
+    except ValueError:
+        return False, date, minTemp, maxTemp, weather
 
     for i in range(7):
         dayData = jsonParsed[i]
