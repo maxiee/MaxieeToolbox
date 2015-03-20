@@ -9,10 +9,15 @@ class MainWindow(QtGui.QWidget):
         super(MainWindow, self).__init__(parent)
 
         self.myIcon = QtGui.QIcon(os.path.join(".", "MyData", "icon.jpg"))
+        menu = QtGui.QMenu()
+        exitAction = menu.addAction("Exit")
+        self.connect(exitAction,QtCore.SIGNAL("triggered()"), self, QtCore.SLOT("close()"))
         self.icon = QtGui.QSystemTrayIcon()
         self.icon.setIcon(self.myIcon)
         self.icon.activated.connect(self.taryActivied)
+        self.icon.setContextMenu(menu)
         self.icon.show()
+        self.icon.showMessage("欢迎！", "Have a good day!")
         self.setWindowIcon(self.myIcon)
 
         self.homepage = widgets.homepage.homepage.HomePage()
@@ -37,20 +42,12 @@ class MainWindow(QtGui.QWidget):
         self.setLayout(mainLayout)
         self.setWindowTitle("Maxiee工具箱")
 
-    def closeEvent(self, QCloseEvent):
-        reply = QtGui.QMessageBox.question(
-            self,  'Quit', 'Are you sure to quit?',
-            QtGui.QMessageBox.Yes|QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
-            QCloseEvent.accept()
-        else:
-            self.icon.show()
-            self.hide()
-            QCloseEvent.ignore()
-
     def taryActivied(self, reason):
-        if reason == 2:
+        # 3-单击 2-双击 1-右键单击
+        if reason == QtGui.QSystemTrayIcon.DoubleClick:
             self.show()
+        else:
+            self.hide()
 
 if __name__ == '__main__':
     import sys
