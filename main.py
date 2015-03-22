@@ -1,6 +1,7 @@
 __author__ = 'Maxiee'
 from PyQt4 import QtCore, QtGui
 import widgets.homepage.homepage
+import widgets.weibo.weibo
 import os
 
 
@@ -21,12 +22,15 @@ class MainWindow(QtGui.QWidget):
         self.setWindowIcon(self.myIcon)
 
         self.homepage = widgets.homepage.homepage.HomePage()
+        self.weibo = widgets.weibo.weibo.Weibo()
 
         self.mainStack = QtGui.QStackedWidget()
         self.mainStack.addWidget(self.homepage)
+        self.mainStack.addWidget(self.weibo)
 
         self.mainPageComboBox = QtGui.QComboBox()
         self.mainPageComboBox.addItem("主页")
+        self.mainPageComboBox.addItem("微博")
 
         QtCore.QObject.connect(
             self.mainPageComboBox,
@@ -39,6 +43,7 @@ class MainWindow(QtGui.QWidget):
         mainLayout.addWidget(self.mainStack)
 
         self.setGeometry(100,100,300,600)
+        self.setMaximumWidth(600)
         self.setLayout(mainLayout)
         self.setWindowTitle("Maxiee工具箱")
 
