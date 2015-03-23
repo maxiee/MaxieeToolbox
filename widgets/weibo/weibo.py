@@ -20,6 +20,7 @@ class Weibo(QtGui.QWidget):
         weiboContent = None
         if self.weiboToken is not "":
             weiboContent = json.loads(self.loadHomeLine(20, 1))
+        weiboWidget = QtGui.QWidget(self)
         weiboLayout = QtGui.QVBoxLayout()
         if weiboContent is not None:
             weiboContent = weiboContent['statuses']
@@ -27,11 +28,22 @@ class Weibo(QtGui.QWidget):
                 str = weiboContent[i]['user']['name'] + ":"
                 str += weiboContent[i]['text']
                 if 'retweeted_status' in  weiboContent[i]:
-                    str += "转发自"
+                    str += "\n转发自"
                     str += weiboContent[i]['retweeted_status']['user']['name'] + ":"
                     str += weiboContent[i]['retweeted_status']['text']
-                weiboLayout.addWidget(QtGui.QLabel(str))
-        self.setLayout(weiboLayout)
+                weiboLabel = QtGui.QLabel(str)
+                weiboLabel.setWordWrap(True)
+                weiboLabel.setMaximumWidth(300)
+                weiboLayout.addWidget(weiboLabel)
+        weiboWidget.setLayout(weiboLayout)
+        scrollArea = QtGui.QScrollArea()
+        scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        scrollArea.setWidgetResizable(False)
+        scrollArea.setWidget(weiboWidget)
+        mainLayout = QtGui.QVBoxLayout(self)
+        mainLayout.addWidget(scrollArea)
+        self.setLayout(mainLayout)
         self.setWindowTitle("微博")
 
     def loadHomeLine(self, count, page):
