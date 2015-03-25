@@ -40,6 +40,7 @@ def translateWeatherDescription(description):
         "light rain": "小雨",
         "sky is clear": "晴",
         "scattered clouds": "多云",
-        "few clouds": "少云"
+        "few clouds": "少云",
+        "broken clouds": "阴转晴"
     }
     return dict[description]
