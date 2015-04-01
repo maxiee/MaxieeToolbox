@@ -10,11 +10,11 @@ def getWeather7Days():
     minTemp = []
     maxTemp = []
     weather = []
-    url = "http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&mode=json&cnt=7&units=metric"
+    url = "http://api.openweathermap.org/data/2.5/forecast?lat=31.57&lon=120.29&units=metric"
     # 调用这个接口才会得到正确信息：
     # http://api.openweathermap.org/data/2.5/forecast?lat=31.57&lon=120.29&units=metric
     try:
-        response = requests.get(url.format('Wuxi'))
+        response = requests.get(url)
     except requests.RequestException:
         return False, date, minTemp, maxTemp, weather
 
@@ -27,9 +27,9 @@ def getWeather7Days():
     for i in range(7):
         dayData = jsonParsed[i]
         date.append(datetime.datetime.fromtimestamp(
-            dayData['dt']).strftime("%m-%d"))
-        minTemp.append(dayData['temp']['min'])
-        maxTemp.append(dayData['temp']['max'])
+            dayData['dt']).strftime("%m-%d-%H"))
+        minTemp.append(dayData['main']['temp_min'])
+        maxTemp.append(dayData['main']['temp_max'])
         weather.append(
             translateWeatherDescription(
                 dayData['weather'][0]['description']))
