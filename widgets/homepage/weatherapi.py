@@ -10,7 +10,9 @@ def getWeather7Days():
     minTemp = []
     maxTemp = []
     weather = []
-    url = "http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&mode=json&units=metric&cnt=7"
+    url = "http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&mode=json&cnt=7&units=metric"
+    # 调用这个接口才会得到正确信息：
+    # http://api.openweathermap.org/data/2.5/forecast?lat=31.57&lon=120.29&units=metric
     try:
         response = requests.get(url.format('Wuxi'))
     except requests.RequestException:
@@ -35,7 +37,8 @@ def getWeather7Days():
 
 def translateWeatherDescription(description):
     dict = {
-        "heavy intensity rain": "大暴雨",
+        "very heavy rain": "大暴雨",
+        "heavy intensity rain": "暴雨",
         "moderate rain": "中雨",
         "light rain": "小雨",
         "sky is clear": "晴",
@@ -43,4 +46,7 @@ def translateWeatherDescription(description):
         "few clouds": "少云",
         "broken clouds": "阴转晴"
     }
-    return dict[description]
+    try:
+        return dict[description]
+    except KeyError:
+        return description
