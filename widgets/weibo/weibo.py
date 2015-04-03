@@ -1,13 +1,17 @@
 __author__ = 'Maxiee'
-from PyQt4 import QtCore, QtGui
 import os
 import json
+
+from PyQt4 import QtCore, QtGui
 import requests
+
+from widgets.weibo.ui.WeiboWidget import WeiboWidget
 
 
 class Constants():
     base_url = "https://api.weibo.com/2/"
     homeline = base_url + "statuses/home_timeline.json?count=%s&page=%s&access_token=%s"
+
 
 class Weibo(QtGui.QWidget):
     weiboToken = ""
@@ -20,27 +24,26 @@ class Weibo(QtGui.QWidget):
         weiboContent = None
         if self.weiboToken is not "":
             weiboContent = json.loads(self.loadHomeLine(20, 1))
-        weiboWidget = QtGui.QWidget(self)
+        mainWeibo = QtGui.QWidget(self)
         weiboLayout = QtGui.QVBoxLayout()
         if weiboContent is not None:
             weiboContent = weiboContent['statuses']
             for i in range(len(weiboContent)):
-                str = weiboContent[i]['user']['name'] + ":"
-                str += weiboContent[i]['text']
-                if 'retweeted_status' in  weiboContent[i]:
-                    str += "\n转发自"
-                    str += weiboContent[i]['retweeted_status']['user']['name'] + ":"
-                    str += weiboContent[i]['retweeted_status']['text']
-                weiboLabel = QtGui.QLabel(str)
-                weiboLabel.setWordWrap(True)
-                weiboLabel.setMaximumWidth(300)
-                weiboLayout.addWidget(weiboLabel)
-        weiboWidget.setLayout(weiboLayout)
+                user = weiboContent[i]['user']['name'] + ":"
+                text = weiboContent[i]['text']
+                reUser = None
+                reText = None
+                if 'retweeted_status' in weiboContent[i]:
+                    reUser = weiboContent[i]['retweeted_status']['user']['name'] + ":"
+                    reText = weiboContent[i]['retweeted_status']['text']
+                weibo = WeiboWidget(self, user, text, reUser, reText)
+                weiboLayout.addWidget(weibo)
+        mainWeibo.setLayout(weiboLayout)
         scrollArea = QtGui.QScrollArea()
         scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         scrollArea.setWidgetResizable(False)
-        scrollArea.setWidget(weiboWidget)
+        scrollArea.setWidget(mainWeibo)
         mainLayout = QtGui.QVBoxLayout(self)
         mainLayout.addWidget(scrollArea)
         self.setLayout(mainLayout)

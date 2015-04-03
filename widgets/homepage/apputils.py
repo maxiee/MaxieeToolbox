@@ -2,6 +2,7 @@ __author__ = 'Maxiee'
 import os
 import json
 
+
 class MyApps():
     def __init__(self):
         with open(os.path.join(".", "MyData", "myapps.json"), encoding="utf8") as f:

@@ -1,8 +1,10 @@
 __author__ = 'Maxiee'
+import os
+
 from PyQt4 import QtCore, QtGui
+
 import widgets.homepage.homepage
 import widgets.weibo.weibo
-import os
 
 
 class MainWindow(QtGui.QWidget):
@@ -12,7 +14,7 @@ class MainWindow(QtGui.QWidget):
         self.myIcon = QtGui.QIcon(os.path.join(".", "MyData", "icon.jpg"))
         menu = QtGui.QMenu()
         exitAction = menu.addAction("Exit")
-        self.connect(exitAction,QtCore.SIGNAL("triggered()"), self, QtCore.SLOT("close()"))
+        self.connect(exitAction, QtCore.SIGNAL("triggered()"), self, QtCore.SLOT("close()"))
         self.icon = QtGui.QSystemTrayIcon()
         self.icon.setIcon(self.myIcon)
         self.icon.activated.connect(self.taryActivied)
@@ -42,7 +44,7 @@ class MainWindow(QtGui.QWidget):
         mainLayout.addWidget(self.mainPageComboBox)
         mainLayout.addWidget(self.mainStack)
 
-        self.setGeometry(100,100,300,600)
+        self.setGeometry(100, 100, 300, 600)
         self.setMaximumWidth(600)
         self.setLayout(mainLayout)
         self.setWindowTitle("Maxiee工具箱")
@@ -54,8 +56,10 @@ class MainWindow(QtGui.QWidget):
         else:
             self.hide()
 
+
 if __name__ == '__main__':
     import sys
+
     app = QtGui.QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()

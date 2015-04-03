@@ -1,9 +1,11 @@
 # -*- coding: UTF-8 -*-
 __author__ = 'Maxiee'
 
-import requests
 import json
 import datetime
+
+import requests
+
 
 def getWeather7Days():
     date = []
@@ -34,6 +36,7 @@ def getWeather7Days():
             translateWeatherDescription(
                 dayData['weather'][0]['description']))
     return True, date, minTemp, maxTemp, weather
+
 
 def translateWeatherDescription(description):
     dict = {
