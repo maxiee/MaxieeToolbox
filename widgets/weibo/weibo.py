@@ -27,6 +27,7 @@ class Weibo(QtGui.QWidget):
         mainWeibo = QtGui.QWidget(self)
         weiboLayout = QtGui.QVBoxLayout()
         if weiboContent is not None:
+            # print(weiboContent) # debug
             weiboContent = weiboContent['statuses']
             for i in range(len(weiboContent)):
                 user = weiboContent[i]['user']['name'] + ":"
